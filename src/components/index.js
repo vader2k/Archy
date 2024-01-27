@@ -8,5 +8,6 @@ import SayHi from './SayHi'
 import Speciality from './Speciality'
 import Team from './Team'
 import Thinking from './Thinking'
+import Navbar from './Navbar'
 
-export {Carousel, Discover, Footer, Hero , LatestNews, Legacy, SayHi, Speciality, Team, Thinking}
+export { Carousel, Discover, Footer, Hero , LatestNews, Legacy, SayHi, Speciality, Team, Thinking, Navbar }
