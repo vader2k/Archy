@@ -2,15 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'satoshi';
-  src: url('./fonts/Satoshi-Regular.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-}
 
 body {
-  font-family: 'satoshi', sans-serif;
   scroll-behavior: smooth;
 }
 
@@ -40,11 +33,21 @@ body {
   background: #555;
 }
 
-.carousel-container {
-  position: relative;
-  overflow: hidden;
-  width: 100vw;
-  height: 100vh;
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.carousel-content {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  transform: translate(-5%, -50%);
+  color: white;
 }
 
 .carousel-slide {
@@ -55,35 +58,36 @@ body {
   height: 100%;
   background-size: cover;
   background-position: center;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
+  animation: fadeOut 0.5s ease-in-out forwards;
 }
 
 .carousel-slide.active {
-  opacity: 1;
+  animation: none; /* Disable animation for the active slide */
 }
 
-.carousel-content {
+
+
+/* Add styling for pagination buttons */
+.pagination {
   position: absolute;
-  top: 50%;
+  bottom: 20px;
   left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  text-align: center;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
 }
 
-.carousel-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: #333;
-  color: white;
+.pagination-button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ccc;
   border: none;
-  padding: 10px;
   cursor: pointer;
-  z-index: 1;
+  transition: background-color 0.3s ease-in-out;
 }
 
-.carousel-button:hover {
-  background-color: #555;
+.pagination-button.active {
+  background-color: gray;
 }
+

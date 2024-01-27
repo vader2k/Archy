@@ -1,67 +1,60 @@
-import { slider1, slider2, slider3, slider4 } from '../assets'
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
+import { slider } from '../constants/data';
 
 const Home = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  const [currentslide, setCurrentSlide ] = useState(1)
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setIsAnimating(false);
+    }, 500); // Adjust the duration based on your transition duration
 
-  const data = [
-    {
-      img: slider1,
-      h3: "POSTMODERNISM",
-      h1Top: "DESIGNING",
-      h1Sec: "SPACES THAT",
-      h1Third: "INSPIRE",
-      desc: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem, totam rem aperiam, eaque ipsa quae ab illo inventore et quasi architecto beatae vitae dicta sunt explicabo."
-    },
-    {
-      img: slider2,
-      h3: "FORM FOLLOWS FUNCTION",
-      h1Top: "WHERE",
-      h1Sec: "FUNCTION MEETS",
-      h1Third: "BEAUTY",
-      desc: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem, totam rem aperiam, eaque ipsa quae ab illo inventore et quasi architecto beatae vitae dicta sunt explicabo."
-    },
-    {
-      img: slider3,
-      h3: "LESSONS FROM THE PAST",
-      h1Top: "CREATING",
-      h1Sec: "STRUCTURES",
-      h1Third: "THAT STANDS",
-      desc: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem, totam rem aperiam, eaque ipsa quae ab illo inventore et quasi architecto beatae vitae dicta sunt explicabo."
-    },
-    {
-      img: slider4,
-      h3: "GREEN ARCHITECTURE",
-      h1Top: "DESIGNING FOR",
-      h1Sec: "A BETTER",
-      h1Third: "TOMORROW",
-      desc: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem, totam rem aperiam, eaque ipsa quae ab illo inventore et quasi architecto beatae vitae dicta sunt explicabo."
-    },
-  ]
+    return () => clearTimeout(timeoutId);
+  }, [isAnimating]);
+
+  const handleChangeSlide = (newIndex) => {
+    setIsAnimating(true);
+    setCurrentSlide(newIndex);
+  };
 
   return (
-    <div className='h-[95vh] w-full relative overflow-hidden'>
+    <div className='h-[93vh] w-full relative overflow-hidden font-satoshi'>
       <div className='h-[100%] w-[100%]'>
-        {data.map((item, index) => (
-          <div key={index}
-          className={`carousel-slide ${index === currentslide ? 'active' : ''}`}
-          style={{ backgroundImage: `url(${item.img})`}}
+        {slider.map((item, index) => (
+          <div
+            key={index}
+            className={`carousel-slide ${
+              isAnimating ? 'fade-out' : ''
+            } ${index === currentSlide ? 'active' : ''}`}
+            style={{ backgroundImage: `url(${item.img})` }}
           >
-            <div className="carousel-content">
-            <h3>{item.h3}</h3>
-            <h1>
-              {item.h1Top} <br />
-              {item.h1Sec} <br />
-              {item.h1Third}
-            </h1>
-            <p>{item.desc}</p>
-          </div>
+            <div className='carousel-content flex flex-col gap-3'>
+              <h3 className='text-[2rem] font-[100]'>"{item.h3}"</h3>
+              <h1 className='text-[4.5rem] font-[900] leading-[4.5rem] tracking-wide'>
+                {item.h1Top} <br />
+                {item.h1Sec} <br />
+                {item.h1Third}
+              </h1>
+              <p className='max-w-[570px]'>{item.desc}</p>
+            </div>
           </div>
         ))}
       </div>
+      <div className='pagination'>
+        {slider.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => handleChangeSlide(index)}
+            className={`pagination-button ${
+              index === currentSlide ? 'active' : ''
+            }`}
+          ></button>
+        ))}
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
+
